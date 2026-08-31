@@ -4,7 +4,7 @@ export default function ResumeWindow() {
       <div className="resume-page">
         <h1>Zoli Le</h1>
         <div className="resume-sub">
-          Las Vegas, NV &middot; 702-538-3488 &middot; Zolikale@icloud.com
+          Las Vegas, NV &middot; &middot; Zolikale@icloud.com
         </div>
 
         <div className="resume-section">
