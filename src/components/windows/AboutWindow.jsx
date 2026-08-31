@@ -20,7 +20,7 @@ export default function AboutWindow() {
           AutoCAD and Fusion 360.
         </p>
         <div className="skills-row">
-          {['C++', 'Python', 'TypeScript', 'JavaScript', 'Java', 'Verilog', 'SystemVerilog', 'HTML/CSS', 'AWS', 'AutoCAD', 'Fusion 360', 'FPGA / Quartus'].map((s) => (
+          {['C++', 'C#', 'Python', 'TypeScript', 'JavaScript', 'Java', 'Verilog', 'SystemVerilog', 'HTML/CSS', 'AWS', 'AutoCAD', 'Fusion 360', 'FPGA / Quartus'].map((s) => (
             <span className="skill-chip" key={s}>{s}</span>
           ))}
         </div>
