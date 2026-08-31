@@ -65,11 +65,11 @@ export default function ContactWindow() {
         </div>
         <div className="contact-link-row">
           <span>{'\u{1F4BC}'}</span>
-          <a href="#" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://www.linkedin.com/feed/" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
         <div className="contact-link-row">
           <span>{'\u{1F4C1}'}</span>
-          <a href="#" target="_blank" rel="noreferrer">GitHub</a>
+          <a href="https://github.com/Solaininn" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
     </div>
