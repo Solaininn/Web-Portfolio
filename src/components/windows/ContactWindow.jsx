@@ -12,11 +12,11 @@ export default function ContactWindow() {
   return (
     <div className="contact-content">
       <h2>New Message</h2>
-      <div className="sub">Send me a note &mdash; I read everything myself.</div>
+      <div className="sub">Send me a message!</div>
 
       {sent && (
         <div className="sent-confirm">
-          Message sent. Thanks for reaching out &mdash; I'll get back to you soon.
+          Message sent. Thanks for reaching out! I'll get back to you soon.
         </div>
       )}
 
@@ -58,10 +58,6 @@ export default function ContactWindow() {
         <div className="contact-link-row">
           <span>{'\u{1F3EB}'}</span>
           <a href="mailto:Lez1@unlv.nevada.edu">Lez1@unlv.nevada.edu</a>
-        </div>
-        <div className="contact-link-row">
-          <span>{'\u{1F4DE}'}</span>
-          <span>702-538-3488</span>
         </div>
         <div className="contact-link-row">
           <span>{'\u{1F4CD}'}</span>
