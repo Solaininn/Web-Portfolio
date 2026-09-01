@@ -6,7 +6,7 @@ const PROJECTS = [
     name: 'Rebel Locate',
     icon: '\u{1F4CD}',
     color: '#3f6fc9',
-    summary: 'A UNLV geolocation system built upon machine learning algorithms, image recognition, and dynamically trained neural networks.',
+    summary: 'ML geolocator that predicts a UNLV building & room from a photo.',
     role: 'Team project',
     tags: ['Python', 'PyTorch', 'CNN', 'KNN'],
     description:
@@ -21,18 +21,18 @@ const PROJECTS = [
     role: 'Team project',
     tags: ['SystemVerilog', 'FPGA', 'Quartus Prime'],
     description:
-      'An interactive Sudoku game engineered entirely in hardware using SystemVerilog on the Intel DE2-115 FPGA, featuring real-time VGA graphics and hardware-based user controls. Designed modular digital logic for cursor navigation, board state management, and switch-driven number input using finite state machines and synchronous memory modules, plus a VGA rendering pipeline with Character ROM support to display the grid, cursor highlighting, and numeric values directly through hardware.',
+      'A fully functional Sudoku puzzle implemented entirely through System Verilog and the DE2-115 FPGA Development Board hardware. The project utilizes FPGA hardware controls, 1-hot bit input encoding for numerical inputs, an onboard memory system, and modular digital design to emulate the classic Sudoku puzzle both within the hardware and in real-time graphic rendering and digital logic design and display.',
   },
   {
     id: 3,
     name: 'ACM UNLV Website',
     icon: '\u{1F310}',
     color: '#2f9e5f',
-    summary: 'The official site for ACM UNLV, built as Lead Software Engineer.',
+    summary: 'The official site for ACM UNLV, built as a Lead Software Engineer.',
     role: 'Lead Software Engineer \u2014 ACM UNLV',
     tags: ['Next.js', 'Tailwind CSS', 'shadcn/ui'],
     description:
-      'The official platform for ACM UNLV, showcasing club events, resources, and initiatives, built with Next.js, Tailwind CSS, and shadcn/ui. Designed and implemented responsive UI components, including an animated landing page built with Figma and CSS, to improve the overall user experience and visual engagement.',
+      'The official website for ACM UNLV, showcasing club events, resources, and initiatives, built with Next.js, Tailwind CSS, and shadcn/ui. Designed and implemented responsive UI components, including an animated landing page built with Figma and CSS.',
   },
 ]
 
