@@ -2,12 +2,12 @@ export default function StartMenu({ onOpenApp, onClose }) {
   const pinned = [
     { id: 'about', icon: '\u{1F464}', title: 'About Me', sub: 'Who I am' },
     { id: 'projects', icon: '\u{1F4C1}', title: 'My Projects', sub: 'Browse my work' },
-    { id: 'resume', icon: '\u{1F4C4}', title: 'Resume.pdf', sub: 'Adobe Reader' },
+    { id: 'resume', icon: '\u{1F4C4}', title: 'Resume', sub: 'Adobe Reader' },
     { id: 'contact', icon: '\u2709\uFE0F', title: 'Contact Me', sub: 'Mail' },
   ]
 
   const recent = [
-    { id: 'projects', icon: '\u{1F310}', title: 'Windows7Portfolio.exe' },
+    { id: 'projects', icon: '\u{1F310}', title: 'Portfolio.exe' },
     { id: 'about', icon: '\u{1F4DD}', title: 'AboutMe.txt' },
     { id: 'contact', icon: '\u{1F4E7}', title: 'NewMessage.msg' },
   ]
@@ -75,7 +75,7 @@ export default function StartMenu({ onOpenApp, onClose }) {
         <button
           className="shutdown-btn"
           onClick={() =>
-            window.open('https://github.com', '_blank')
+            window.open('https://github.com/Solaininn', '_blank')
           }
         >
           {'\u{1F310}'} GitHub
