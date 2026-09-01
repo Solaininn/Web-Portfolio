@@ -60,10 +60,6 @@ export default function ContactWindow() {
           <a href="mailto:Lez1@unlv.nevada.edu">Lez1@unlv.nevada.edu</a>
         </div>
         <div className="contact-link-row">
-          <span>{'\u{1F4CD}'}</span>
-          <span>Las Vegas, NV</span>
-        </div>
-        <div className="contact-link-row">
           <span>{'\u{1F4BC}'}</span>
           <a href="https://www.linkedin.com/feed/" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
