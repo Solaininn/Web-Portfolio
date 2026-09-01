@@ -6,18 +6,20 @@ export default function AboutWindow() {
         <h2>Zoli Le</h2>
         <div className="tagline">Computer Engineering student @ UNLV &middot; Las Vegas, NV</div>
         <p>
-          I'm a Computer Engineering student at the University of Nevada, Las Vegas
-          (Dean's Honour List), working across software and hardware &mdash; from
-          machine learning and full-stack web to FPGA digital logic and AV/IT
-          systems. I like projects that combine a bit of everything: writing code,
-          wiring hardware, and designing the interface people actually touch.
+          I am a Computer Engineering student at the University of Nevada, Las Vegas,
+          where I strive to continue my pursuit of learning new skills in both
+          hardware and software engineering. I love to combine the physical
+          with the theoretical and find that the best projects come from a
+          great understanding of both. I've enjoyed making my own projects
+          from Machine Learning algorithms to FPGA digital logic and circuit
+          boards. 
         </p>
         <p>
-          Currently the Lead Software Engineer for ACM UNLV, where I help build and
-          maintain the club's official site. Previously worked in classroom
-          technology at UNLV IT, ran AWS-hosted MLS infrastructure as an independent
-          realtor's data coordinator, and drafted architectural floor plans in
-          AutoCAD and Fusion 360.
+          As a Lead Software Engineer for ACM UNLV, I have helped build and
+          structure the club's official site. I have previously led and completed
+          IT projects as a student worker at UNLV OIT, as well as maintaining
+          AWS-hosted MLS listings as an independent realtor's data coordinator, 
+          and drafted architectural floor plans in AutoCAD and Fusion 360.
         </p>
         <div className="skills-row">
           {['C++', 'C#', 'Python', 'TypeScript', 'JavaScript', 'Java', 'Verilog', 'SystemVerilog', 'HTML/CSS', 'AWS', 'AutoCAD', 'Fusion 360', 'FPGA / Quartus'].map((s) => (
