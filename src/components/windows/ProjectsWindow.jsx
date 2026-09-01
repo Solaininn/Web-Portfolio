@@ -6,11 +6,11 @@ const PROJECTS = [
     name: 'Rebel Locate',
     icon: '\u{1F4CD}',
     color: '#3f6fc9',
-    summary: 'ML geolocator that predicts a UNLV building & room from a photo.',
+    summary: 'A UNLV geolocation system built upon machine learning algorithms, image recognition, and dynamically trained neural networks.',
     role: 'Team project',
     tags: ['Python', 'PyTorch', 'CNN', 'KNN'],
     description:
-      'A machine learning-based geolocator that predicts a photo\u2019s building and room on the UNLV campus using extracted and organized EXIF metadata, built on a self-captured database of over 6,000 geotagged images. Designed and implemented a K-Nearest Neighbors model to classify buildings from GPS metadata using K-value cross-validation, then fine-tuned a Convolutional Neural Network on MIT\u2019s Places365 pretrained weights to predict rooms and buildings, reaching an average test accuracy of 81%.',
+      'A UNLV-based geolocator, using a self-captured database of over 6000+ images. Utilizing a machine learning algorithm, a dynamically trained Convolutional Neural Network, and extracted coordinate metadata for image recognition and scene labeling to accurately predict an image location, with an average test score of 81%.',
   },
   {
     id: 2,
