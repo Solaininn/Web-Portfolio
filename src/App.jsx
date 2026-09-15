@@ -3,6 +3,7 @@ import './App.css'
 import Window from './components/Window'
 import DesktopIcon from './components/DesktopIcon'
 import StartMenu from './components/StartMenu'
+import BootScreen from './components/BootScreen'
 import AboutWindow from './components/windows/AboutWindow'
 import ProjectsWindow from './components/windows/ProjectsWindow'
 import ContactWindow from './components/windows/ContactWindow'
@@ -66,6 +67,7 @@ function formatDate(date) {
 }
 
 export default function App() {
+  const [booted, setBooted] = useState(false)
   const [windows, setWindows] = useState({})
   const [activeId, setActiveId] = useState(null)
   const [startOpen, setStartOpen] = useState(false)
@@ -134,6 +136,10 @@ export default function App() {
 
   const openWindows = Object.values(windows)
 
+  if (!booted) {
+    return <BootScreen onDone={() => setBooted(true)} />
+  }
+
   return (
     <div
       className="win7-desktop"
@@ -143,6 +149,16 @@ export default function App() {
       }}
     >
       <div className="desktop-surface">
+        <div className="desktop-watermark">
+          <div className="watermark-flag">
+            <div /><div /><div /><div />
+          </div>
+          <div className="watermark-text">
+            <div className="wm-name">Zoli Le</div>
+            <div className="wm-sub">Portfolio</div>
+          </div>
+        </div>
+
         <div className="desktop-icons" onMouseDown={(e) => e.stopPropagation()}>
           {DESKTOP_ICONS.map((ic) => (
             <DesktopIcon
@@ -189,11 +205,10 @@ export default function App() {
             setStartOpen((s) => !s)
           }}
         >
-          <div className="start-orb">
-            <div className="start-flag">
-              <div /><div /><div /><div />
-            </div>
+          <div className="start-flag">
+            <div /><div /><div /><div />
           </div>
+          <span className="start-label">start</span>
         </div>
 
         <div className="taskbar-divider" />
