@@ -71,7 +71,7 @@ export default function StartMenu({ onOpenApp, onClose }) {
       </div>
 
       <div className="start-menu-footer">
-        <div style={{ fontSize: 11, color: '#556' }}>Windows 7 Ultimate</div>
+        <div style={{ fontSize: 11, color: '#556' }}>Zoli.OS</div>
         <button
           className="shutdown-btn"
           onClick={() =>
