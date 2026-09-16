@@ -20,7 +20,7 @@ export default function BootScreen({ onDone }) {
       <div className="boot-progress-track">
         <div className="boot-progress-bar" />
       </div>
-      <div className="boot-caption">Starting Zoli Le Portfolio&hellip;</div>
+      <div className="boot-caption">Starting Zoli.os&hellip;</div>
     </div>
   )
 }
