@@ -39,6 +39,8 @@ const PROJECTS = [
   },
 ]
 
+// ---- tiny markdown renderer (headings, bold/italic/code, links, lists, code fences, images, blockquotes) ----
+
 function decodeBase64Utf8(b64) {
   const clean = b64.replace(/\n/g, '')
   const binary = atob(clean)
@@ -55,7 +57,8 @@ function resolveImageSrc(src, repo, branch) {
   return `https://raw.githubusercontent.com/${repo}/${branch}/${cleaned}`
 }
 
-// README links
+// Relative README links (demo clips, docs, other files in the repo) get pointed
+// back at GitHub instead of the portfolio's own domain, where they 404.
 function resolveLinkHref(href, repo, branch) {
   if (/^https?:\/\//.test(href) || href.startsWith('#') || href.startsWith('mailto:')) {
     return href
@@ -67,6 +70,25 @@ function resolveLinkHref(href, repo, branch) {
     : `https://github.com/${repo}/blob/${branch}/${cleaned}`
 }
 
+// Many READMEs use raw HTML (usually <p align="center"><img .../></p>) instead of
+// Markdown image syntax to center/size images. Convert those to plain Markdown
+// image lines before block-parsing so the normal image handling picks them up.
+function preprocessHtmlImages(markdown) {
+  const fromAttrs = (attrs) => {
+    const srcMatch = attrs.match(/src="([^"]+)"/i)
+    if (!srcMatch) return null
+    const altMatch = attrs.match(/alt="([^"]*)"/i)
+    return `\n\n![${altMatch ? altMatch[1] : ''}](${srcMatch[1]})\n\n`
+  }
+  let text = markdown.replace(/<p[^>]*>\s*<img\b([^>]*?)\/?>\s*<\/p>/gi, (m, attrs) => {
+    return fromAttrs(attrs) ?? ''
+  })
+  text = text.replace(/<img\b([^>]*?)\/?>/gi, (m, attrs) => {
+    return fromAttrs(attrs) ?? ''
+  })
+  return text
+}
+
 function parseInline(text, repo, branch, key0) {
   const nodes = []
   const regex = /\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`|\[([^\]]+)\]\(([^)]+)\)/g
@@ -75,22 +97,27 @@ function parseInline(text, repo, branch, key0) {
   let key = key0 || 0
   while ((match = regex.exec(text)) !== null) {
     if (match.index > lastIndex) nodes.push(text.slice(lastIndex, match.index))
-    if (match[1] !== undefined) nodes.push(<strong key={key++}>{match[1]}</strong>)
-    else if (match[2] !== undefined) nodes.push(<em key={key++}>{match[2]}</em>)
-    else if (match[3] !== undefined) nodes.push(<code key={key++}>{match[3]}</code>)
-    else if (match[4] !== undefined)
+    if (match[1] !== undefined) {
+      nodes.push(<strong key={key++}>{parseInline(match[1], repo, branch, 0)}</strong>)
+    } else if (match[2] !== undefined) {
+      nodes.push(<em key={key++}>{parseInline(match[2], repo, branch, 0)}</em>)
+    } else if (match[3] !== undefined) {
+      nodes.push(<code key={key++}>{match[3]}</code>)
+    } else if (match[4] !== undefined) {
       nodes.push(
         <a key={key++} href={resolveLinkHref(match[5], repo, branch)} target="_blank" rel="noreferrer">
           {match[4]}
         </a>
       )
+    }
     lastIndex = regex.lastIndex
   }
   if (lastIndex < text.length) nodes.push(text.slice(lastIndex))
   return nodes
 }
 
-function renderMarkdown(markdown, repo, branch) {
+function renderMarkdown(rawMarkdown, repo, branch) {
+  const markdown = preprocessHtmlImages(rawMarkdown)
   const lines = markdown.split('\n')
   const blocks = []
   let i = 0
