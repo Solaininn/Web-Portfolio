@@ -16,15 +16,15 @@ const APP_DEFS = {
     Component: AboutWindow,
     menubar: false,
     statusbar: null,
-    defaultRect: { x: 120, y: 60, w: 560, h: 380 },
+    defaultRect: { x: 110, y: 45, w: 640, h: 460 },
   },
   projects: {
     title: 'My Projects',
     icon: '\u{1F4C1}',
     Component: ProjectsWindow,
     menubar: true,
-    statusbar: '4 items',
-    defaultRect: { x: 90, y: 40, w: 680, h: 480 },
+    statusbar: '3 items',
+    defaultRect: { x: 60, y: 25, w: 980, h: 660 },
   },
   contact: {
     title: 'Contact Me',
@@ -32,7 +32,7 @@ const APP_DEFS = {
     Component: ContactWindow,
     menubar: false,
     statusbar: null,
-    defaultRect: { x: 200, y: 90, w: 500, h: 460 },
+    defaultRect: { x: 170, y: 60, w: 560, h: 520 },
   },
   resume: {
     title: 'Resume.pdf - Adobe Reader',
@@ -40,7 +40,7 @@ const APP_DEFS = {
     Component: ResumeWindow,
     menubar: false,
     statusbar: 'Page 1 of 1',
-    defaultRect: { x: 160, y: 30, w: 640, h: 560 },
+    defaultRect: { x: 130, y: 15, w: 760, h: 680 },
   },
 }
 
