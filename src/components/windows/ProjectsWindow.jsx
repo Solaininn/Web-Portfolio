@@ -39,8 +39,6 @@ const PROJECTS = [
   },
 ]
 
-// ---- tiny markdown renderer (headings, bold/italic/code, links, lists, code fences, images, blockquotes) ----
-
 function decodeBase64Utf8(b64) {
   const clean = b64.replace(/\n/g, '')
   const binary = atob(clean)
@@ -57,8 +55,7 @@ function resolveImageSrc(src, repo, branch) {
   return `https://raw.githubusercontent.com/${repo}/${branch}/${cleaned}`
 }
 
-// Relative README links (demo clips, docs, other files in the repo) get pointed
-// back at GitHub instead of the portfolio's own domain, where they 404.
+// README links
 function resolveLinkHref(href, repo, branch) {
   if (/^https?:\/\//.test(href) || href.startsWith('#') || href.startsWith('mailto:')) {
     return href
