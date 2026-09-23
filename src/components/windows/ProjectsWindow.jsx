@@ -57,7 +57,20 @@ function resolveImageSrc(src, repo, branch) {
   return `https://raw.githubusercontent.com/${repo}/${branch}/${cleaned}`
 }
 
-function parseInline(text, key0) {
+// Relative README links (demo clips, docs, other files in the repo) get pointed
+// back at GitHub instead of the portfolio's own domain, where they 404.
+function resolveLinkHref(href, repo, branch) {
+  if (/^https?:\/\//.test(href) || href.startsWith('#') || href.startsWith('mailto:')) {
+    return href
+  }
+  const cleaned = href.replace(/^\.?\//, '')
+  const isMedia = /\.(png|jpe?g|gif|svg|webp|mp4|mov|webm)(\?.*)?$/i.test(cleaned)
+  return isMedia
+    ? `https://raw.githubusercontent.com/${repo}/${branch}/${cleaned}`
+    : `https://github.com/${repo}/blob/${branch}/${cleaned}`
+}
+
+function parseInline(text, repo, branch, key0) {
   const nodes = []
   const regex = /\*\*(.+?)\*\*|\*(.+?)\*|`(.+?)`|\[([^\]]+)\]\(([^)]+)\)/g
   let lastIndex = 0
@@ -70,7 +83,7 @@ function parseInline(text, key0) {
     else if (match[3] !== undefined) nodes.push(<code key={key++}>{match[3]}</code>)
     else if (match[4] !== undefined)
       nodes.push(
-        <a key={key++} href={match[5]} target="_blank" rel="noreferrer">
+        <a key={key++} href={resolveLinkHref(match[5], repo, branch)} target="_blank" rel="noreferrer">
           {match[4]}
         </a>
       )
@@ -114,7 +127,7 @@ function renderMarkdown(markdown, repo, branch) {
     if (headingMatch) {
       const level = headingMatch[1].length
       blocks.push(
-        React.createElement(`h${level}`, { key: key++ }, parseInline(headingMatch[2]))
+        React.createElement(`h${level}`, { key: key++ }, parseInline(headingMatch[2], repo, branch))
       )
       i++
       continue
@@ -132,7 +145,7 @@ function renderMarkdown(markdown, repo, branch) {
         quoteLines.push(lines[i].trim().replace(/^>\s?/, ''))
         i++
       }
-      blocks.push(<blockquote key={key++}>{parseInline(quoteLines.join(' '))}</blockquote>)
+      blocks.push(<blockquote key={key++}>{parseInline(quoteLines.join(' '), repo, branch)}</blockquote>)
       continue
     }
 
@@ -155,7 +168,7 @@ function renderMarkdown(markdown, repo, branch) {
       const items = []
       while (i < lines.length && /^\s*([-*+]|\d+\.)\s+/.test(lines[i])) {
         const itemText = lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, '')
-        items.push(<li key={key++}>{parseInline(itemText)}</li>)
+        items.push(<li key={key++}>{parseInline(itemText, repo, branch)}</li>)
         i++
       }
       blocks.push(React.createElement(isOrdered ? 'ol' : 'ul', { key: key++ }, items))
@@ -174,7 +187,7 @@ function renderMarkdown(markdown, repo, branch) {
       paraLines.push(lines[i])
       i++
     }
-    blocks.push(<p key={key++}>{parseInline(paraLines.join(' '))}</p>)
+    blocks.push(<p key={key++}>{parseInline(paraLines.join(' '), repo, branch)}</p>)
   }
 
   return blocks
@@ -235,7 +248,7 @@ export default function ProjectsWindow() {
         </div>
         <h2>{p.icon} {p.name}</h2>
         <div className="role">{p.role}</div>
-        <p className="desc">{p.description}</p>
+        {!p.repo && <p className="desc">{p.description}</p>}
         <div className="project-tags" style={{ marginBottom: 16 }}>
           {p.tags.map((t) => (
             <span className="project-tag" key={t}>{t}</span>
