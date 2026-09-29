@@ -8,6 +8,7 @@ import AboutWindow from './components/windows/AboutWindow'
 import ProjectsWindow from './components/windows/ProjectsWindow'
 import ContactWindow from './components/windows/ContactWindow'
 import ResumeWindow from './components/windows/ResumeWindow'
+import FileExplorerWindow, { EXPLORER_LOCATIONS } from './components/windows/FileExplorerWindow'
 
 const APP_DEFS = {
   about: {
@@ -17,6 +18,14 @@ const APP_DEFS = {
     menubar: false,
     statusbar: null,
     offsetIndex: 0,
+  },
+  mycomputer: {
+    title: 'My Computer',
+    icon: '\u{1F5A5}\uFE0F',
+    Component: FileExplorerWindow,
+    menubar: true,
+    statusbar: null,
+    offsetIndex: 4,
   },
   projects: {
     title: 'My Projects',
@@ -45,7 +54,8 @@ const APP_DEFS = {
 }
 
 const DESKTOP_ICONS = [
-  { id: 'about', label: 'About Me', icon: '/icons/my-computer.png' },
+  { id: 'about', label: 'About Me', icon: '\u{1F464}' },
+  { id: 'mycomputer', label: 'My Computer', icon: '/icons/my-computer.png' },
   { id: 'projects', label: 'My Projects', icon: '/icons/disk-drive.png' },
   { id: 'resume', label: 'Resume.pdf', icon: '/icons/folder-file.png' },
   { id: 'contact', label: 'Contact Me', icon: '/icons/ie-globe.png' },
@@ -54,10 +64,7 @@ const DESKTOP_ICONS = [
 
 let zCounter = 10
 
-// Windows open large relative to the actual browser viewport (roughly 85% of
-// available width/height, capped so it doesn't get absurd on huge monitors),
-// with a small per-app stagger so windows opened one after another don't sit
-// in exactly the same spot.
+// Windows open to set size
 function getDefaultRect(offsetIndex = 0) {
   const vw = window.innerWidth
   const vh = Math.max(400, window.innerHeight - 34)
@@ -86,6 +93,21 @@ function formatDate(date) {
   return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' })
 }
 
+// "My Computer" status change
+function getWindowTitle(win) {
+  if (win.id === 'mycomputer') {
+    return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
+  }
+  return win.title
+}
+
+function getWindowStatus(win) {
+  if (win.id === 'mycomputer') {
+    return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].status) || ''
+  }
+  return win.statusbar
+}
+
 export default function App() {
   const [booted, setBooted] = useState(false)
   const [windows, setWindows] = useState({})
@@ -99,12 +121,20 @@ export default function App() {
     return () => clearInterval(t)
   }, [])
 
-  const openApp = useCallback((id) => {
+  const openApp = useCallback((id, location) => {
     if (id === 'recyclebin') return
     setWindows((prev) => {
       if (prev[id]) {
         zCounter += 1
-        return { ...prev, [id]: { ...prev[id], minimized: false, z: zCounter } }
+        return {
+          ...prev,
+          [id]: {
+            ...prev[id],
+            minimized: false,
+            z: zCounter,
+            ...(location ? { location } : {}),
+          },
+        }
       }
       const def = APP_DEFS[id]
       zCounter += 1
@@ -120,6 +150,7 @@ export default function App() {
           minimized: false,
           maximized: false,
           z: zCounter,
+          location: location || 'root',
         },
       }
     })
@@ -154,6 +185,12 @@ export default function App() {
     setWindows((prev) => ({ ...prev, [id]: { ...prev[id], rect } }))
   }, [])
 
+  const navigateExplorer = useCallback((location) => {
+    setWindows((prev) =>
+      prev.mycomputer ? { ...prev, mycomputer: { ...prev.mycomputer, location } } : prev
+    )
+  }, [])
+
   const openWindows = Object.values(windows)
 
   if (!booted) {
@@ -185,10 +222,11 @@ export default function App() {
         {openWindows.map((win) => {
           const def = APP_DEFS[win.id]
           const Content = def.Component
+          const displayWin = { ...win, title: getWindowTitle(win), statusbar: getWindowStatus(win) }
           return (
             <Window
               key={win.id}
-              win={win}
+              win={displayWin}
               isActive={activeId === win.id}
               onFocus={() => focusApp(win.id)}
               onClose={() => closeApp(win.id)}
@@ -196,7 +234,11 @@ export default function App() {
               onMaximize={() => maximizeApp(win.id)}
               onUpdateRect={(rect) => updateRect(win.id, rect)}
             >
-              <Content />
+              {win.id === 'mycomputer' ? (
+                <Content location={win.location} onNavigate={navigateExplorer} onOpenApp={openApp} />
+              ) : (
+                <Content />
+              )}
             </Window>
           )
         })}
@@ -238,7 +280,7 @@ export default function App() {
               }}
             >
               <span className="taskbar-item-icon">{win.icon}</span>
-              <span className="taskbar-item-label">{win.title}</span>
+              <span className="taskbar-item-label">{getWindowTitle(win)}</span>
             </div>
           ))}
         </div>
