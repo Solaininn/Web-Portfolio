@@ -45,11 +45,11 @@ const APP_DEFS = {
 }
 
 const DESKTOP_ICONS = [
-  { id: 'about', label: 'About Me', icon: '\u{1F464}', color: 'linear-gradient(145deg,#6fb7f0,#2f5ca0)' },
-  { id: 'projects', label: 'My Projects', icon: '\u{1F4C1}', color: 'linear-gradient(145deg,#ffd873,#e0a52e)' },
-  { id: 'resume', label: 'Resume.pdf', icon: '\u{1F4C4}', color: 'linear-gradient(145deg,#f0827a,#c8362b)' },
-  { id: 'contact', label: 'Contact Me', icon: '\u2709\uFE0F', color: 'linear-gradient(145deg,#7fd9a8,#2f9e5f)' },
-  { id: 'recyclebin', label: 'Recycle Bin', icon: '\u{1F5D1}\uFE0F', color: 'linear-gradient(145deg,#c7ceda,#8b95a5)' },
+  { id: 'about', label: 'About Me', icon: '/icons/my-computer.png' },
+  { id: 'projects', label: 'My Projects', icon: '/icons/disk-drive.png' },
+  { id: 'resume', label: 'Resume.pdf', icon: '/icons/folder-file.png' },
+  { id: 'contact', label: 'Contact Me', icon: '/icons/ie-globe.png' },
+  { id: 'recyclebin', label: 'Recycle Bin', icon: '/icons/recycle-bin.png' },
 ]
 
 let zCounter = 10
@@ -169,23 +169,12 @@ export default function App() {
       }}
     >
       <div className="desktop-surface">
-        <div className="desktop-watermark">
-          <div className="watermark-flag">
-            <div /><div /><div /><div />
-          </div>
-          <div className="watermark-text">
-            <div className="wm-name">Zoli Le</div>
-            <div className="wm-sub">Portfolio</div>
-          </div>
-        </div>
-
         <div className="desktop-icons" onMouseDown={(e) => e.stopPropagation()}>
           {DESKTOP_ICONS.map((ic) => (
             <DesktopIcon
               key={ic.id}
               icon={ic.icon}
               label={ic.label}
-              color={ic.color}
               selected={selectedIcon === ic.id}
               onSelect={() => setSelectedIcon(ic.id)}
               onOpen={() => openApp(ic.id)}
