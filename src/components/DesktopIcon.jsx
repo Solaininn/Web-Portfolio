@@ -1,13 +1,11 @@
-export default function DesktopIcon({ icon, label, color, selected, onSelect, onOpen }) {
+export default function DesktopIcon({ icon, label, selected, onSelect, onOpen }) {
   return (
     <div
       className={`desktop-icon ${selected ? 'selected' : ''}`}
       onClick={onSelect}
       onDoubleClick={onOpen}
     >
-      <div className="desktop-icon-glyph" style={{ background: color }}>
-        {icon}
-      </div>
+      <img className="desktop-icon-glyph" src={icon} alt="" draggable={false} />
       <div className="desktop-icon-label">{label}</div>
     </div>
   )
