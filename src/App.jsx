@@ -16,7 +16,7 @@ const APP_DEFS = {
     Component: AboutWindow,
     menubar: false,
     statusbar: null,
-    defaultRect: { x: 110, y: 45, w: 640, h: 460 },
+    offsetIndex: 0,
   },
   projects: {
     title: 'My Projects',
@@ -24,7 +24,7 @@ const APP_DEFS = {
     Component: ProjectsWindow,
     menubar: true,
     statusbar: '3 items',
-    defaultRect: { x: 60, y: 25, w: 980, h: 660 },
+    offsetIndex: 1,
   },
   contact: {
     title: 'Contact Me',
@@ -32,7 +32,7 @@ const APP_DEFS = {
     Component: ContactWindow,
     menubar: false,
     statusbar: null,
-    defaultRect: { x: 170, y: 60, w: 560, h: 520 },
+    offsetIndex: 2,
   },
   resume: {
     title: 'Resume.pdf - Adobe Reader',
@@ -40,7 +40,7 @@ const APP_DEFS = {
     Component: ResumeWindow,
     menubar: false,
     statusbar: 'Page 1 of 1',
-    defaultRect: { x: 130, y: 15, w: 760, h: 680 },
+    offsetIndex: 3,
   },
 }
 
@@ -53,6 +53,26 @@ const DESKTOP_ICONS = [
 ]
 
 let zCounter = 10
+
+// Windows open large relative to the actual browser viewport (roughly 85% of
+// available width/height, capped so it doesn't get absurd on huge monitors),
+// with a small per-app stagger so windows opened one after another don't sit
+// in exactly the same spot.
+function getDefaultRect(offsetIndex = 0) {
+  const vw = window.innerWidth
+  const vh = Math.max(400, window.innerHeight - 34)
+  const w = Math.min(1500, Math.round(vw * 0.85))
+  const h = Math.min(880, Math.round(vh * 0.85))
+  const baseX = Math.round((vw - w) / 2)
+  const baseY = Math.max(10, Math.round((vh - h) / 2) - 10)
+  const stagger = offsetIndex * 26
+  return {
+    x: Math.max(8, baseX - 45 + stagger),
+    y: Math.max(8, baseY - 25 + stagger),
+    w,
+    h,
+  }
+}
 
 function formatTime(date) {
   let h = date.getHours()
@@ -96,7 +116,7 @@ export default function App() {
           icon: def.icon,
           menubar: def.menubar,
           statusbar: def.statusbar,
-          rect: { ...def.defaultRect },
+          rect: getDefaultRect(def.offsetIndex),
           minimized: false,
           maximized: false,
           z: zCounter,
