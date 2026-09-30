@@ -1,3 +1,6 @@
+import { PROJECTS as PROJECTS_IMPORT } from './ProjectsWindow'
+const PROJECTS = Array.isArray(PROJECTS_IMPORT) ? PROJECTS_IMPORT : []
+
 export const EXPLORER_LOCATIONS = {
   c: {
     title: 'Local Disk (C:)',
@@ -54,7 +57,8 @@ export const EXPLORER_LOCATIONS = {
   },
 }
 
-// One folder per project
+// One folder per project, each holding a single "<name>.pdf" file that opens
+// straight to that project's detail/README view in My Projects.
 PROJECTS.forEach((p) => {
   EXPLORER_LOCATIONS[`project-${p.id}`] = {
     title: p.name,
