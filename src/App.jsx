@@ -13,7 +13,7 @@ import FileExplorerWindow, { EXPLORER_LOCATIONS } from './components/windows/Fil
 const APP_DEFS = {
   about: {
     title: 'About Me',
-    icon: '\u{1F464}',
+    icon: '/icons/info.png',
     Component: AboutWindow,
     menubar: false,
     statusbar: null,
@@ -21,7 +21,7 @@ const APP_DEFS = {
   },
   mycomputer: {
     title: 'My Computer',
-    icon: '\u{1F5A5}\uFE0F',
+    icon: '/icons/my-computer.png',
     Component: FileExplorerWindow,
     menubar: true,
     statusbar: null,
@@ -29,7 +29,7 @@ const APP_DEFS = {
   },
   projects: {
     title: 'My Projects',
-    icon: '\u{1F4C1}',
+    icon: '/icons/disk-drive.png',
     Component: ProjectsWindow,
     menubar: true,
     statusbar: '3 items',
@@ -37,7 +37,7 @@ const APP_DEFS = {
   },
   contact: {
     title: 'Contact Me',
-    icon: '\u2709\uFE0F',
+    icon: '/icons/ie-globe.png',
     Component: ContactWindow,
     menubar: false,
     statusbar: null,
@@ -45,7 +45,7 @@ const APP_DEFS = {
   },
   resume: {
     title: 'Resume.pdf - Adobe Reader',
-    icon: '\u{1F4C4}',
+    icon: '/icons/pdf-icon.png',
     Component: ResumeWindow,
     menubar: false,
     statusbar: 'Page 1 of 1',
@@ -54,17 +54,17 @@ const APP_DEFS = {
 }
 
 const DESKTOP_ICONS = [
-  { id: 'about', label: 'About Me', icon: '\u{1F464}' },
+  { id: 'about', label: 'About Me', icon: '/icons/info.png' },
   { id: 'mycomputer', label: 'My Computer', icon: '/icons/my-computer.png' },
   { id: 'projects', label: 'My Projects', icon: '/icons/disk-drive.png' },
-  { id: 'resume', label: 'Resume.pdf', icon: '/icons/folder-file.png' },
+  { id: 'resume', label: 'Resume.pdf', icon: '/icons/pdf-icon.png' },
   { id: 'contact', label: 'Contact Me', icon: '/icons/ie-globe.png' },
   { id: 'recyclebin', label: 'Recycle Bin', icon: '/icons/recycle-bin.png' },
 ]
 
 let zCounter = 10
 
-// Windows open to set size
+// Windows open large relative to the actual browser 
 function getDefaultRect(offsetIndex = 0) {
   const vw = window.innerWidth
   const vh = Math.max(400, window.innerHeight - 34)
@@ -93,7 +93,7 @@ function formatDate(date) {
   return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' })
 }
 
-// "My Computer" status change
+// "My Computer" is the one app whose status bar changes
 function getWindowTitle(win) {
   if (win.id === 'mycomputer') {
     return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
@@ -279,7 +279,11 @@ export default function App() {
                 }
               }}
             >
-              <span className="taskbar-item-icon">{win.icon}</span>
+              {typeof win.icon === 'string' && win.icon.startsWith('/') ? (
+                <img src={win.icon} alt="" className="taskbar-item-icon-img" />
+              ) : (
+                <span className="taskbar-item-icon">{win.icon}</span>
+              )}
               <span className="taskbar-item-label">{getWindowTitle(win)}</span>
             </div>
           ))}
@@ -287,8 +291,15 @@ export default function App() {
 
         <div className="system-tray">
           <div className="tray-icons">
-            <span title="Network">{'\u{1F4F6}'}</span>
-            <span title="Volume">{'\u{1F50A}'}</span>
+            <svg className="tray-svg-icon" viewBox="0 0 16 16" title="Network">
+              <rect x="1" y="9" width="3" height="5" fill="currentColor" />
+              <rect x="6.5" y="6" width="3" height="8" fill="currentColor" />
+              <rect x="12" y="2" width="3" height="12" fill="currentColor" />
+            </svg>
+            <svg className="tray-svg-icon" viewBox="0 0 16 16" title="Volume">
+              <path d="M1 6h3l4-3v10l-4-3H1V6z" fill="currentColor" />
+              <path d="M11 5a4 4 0 0 1 0 6" stroke="currentColor" strokeWidth="1.3" fill="none" />
+            </svg>
           </div>
           <div className="clock-block">
             <div>{formatTime(now)}</div>
