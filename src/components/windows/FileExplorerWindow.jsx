@@ -4,11 +4,12 @@ export const EXPLORER_LOCATIONS = {
     parent: null,
     path: 'C:\\',
     kind: 'Local Disk',
-    status: '3 objects',
+    status: '4 objects',
     items: [
       { id: 'documents', label: 'My Documents', icon: '/icons/empty-folder.png', target: 'documents', type: 'File Folder' },
       { id: 'pictures', label: 'My Pictures', icon: '/icons/folder-pictures.png', target: 'pictures', type: 'File Folder' },
       { id: 'music', label: 'My Music', icon: '/icons/folder-music.png', target: 'music', type: 'File Folder' },
+      { id: 'projects', label: 'My Projects', icon: '/icons/empty-folder.png', target: 'projects', type: 'File Folder' },
     ],
   },
   documents: {
@@ -37,7 +38,42 @@ export const EXPLORER_LOCATIONS = {
     status: '0 objects',
     items: [],
   },
+  projects: {
+    title: 'My Projects',
+    parent: 'c',
+    path: 'C:\\My Projects',
+    kind: 'File Folder',
+    status: `${PROJECTS.length} objects`,
+    items: PROJECTS.map((p) => ({
+      id: `project-${p.id}`,
+      label: p.name,
+      icon: '/icons/empty-folder.png',
+      target: `project-${p.id}`,
+      type: 'File Folder',
+    })),
+  },
 }
+
+// One folder per project
+PROJECTS.forEach((p) => {
+  EXPLORER_LOCATIONS[`project-${p.id}`] = {
+    title: p.name,
+    parent: 'projects',
+    path: `C:\\My Projects\\${p.name}`,
+    kind: 'File Folder',
+    status: '1 object',
+    items: [
+      {
+        id: 'readme',
+        label: `${p.name}.pdf`,
+        icon: '/icons/pdf-icon.png',
+        action: 'open-project',
+        projectId: p.id,
+        type: 'Adobe Acrobat Document',
+      },
+    ],
+  }
+})
 
 export function buildBreadcrumb(locationId) {
   const chain = []
@@ -59,6 +95,8 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
   const handleItemOpen = (item) => {
     if (item.action === 'open-resume') {
       onOpenApp('resume')
+    } else if (item.action === 'open-project') {
+      onOpenApp('projects', item.projectId)
     } else if (item.target) {
       onNavigate(item.target)
     }
@@ -115,10 +153,10 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
           <div className="fe-panel">
             <div className="fe-panel-header">Other Places</div>
             <div className="fe-panel-body">
-              {loc.id !== 'c' && (
+              {location !== 'c' && (
                 <div className="fe-task" onClick={() => onNavigate('c')}>Local Disk (C:)</div>
               )}
-              {loc.id !== 'documents' && (
+              {location !== 'documents' && (
                 <div className="fe-task" onClick={() => onNavigate('documents')}>My Documents</div>
               )}
               <div className="fe-task disabled">My Network Places</div>
