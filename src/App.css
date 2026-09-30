@@ -57,13 +57,9 @@
 .desktop-icon-glyph {
   width: 40px;
   height: 40px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.5);
-  position: relative;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5));
 }
 
 .desktop-icon-label {
@@ -146,6 +142,14 @@
   filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
 }
 
+.win7-titlebar-icon-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+
 .win7-titlebar-controls {
   display: flex;
   gap: 2px;
@@ -216,6 +220,13 @@
   overflow-y: auto;
   background: #fff;
   position: relative;
+}
+
+.resume-frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
 }
 
 .win7-statusbar {
@@ -342,6 +353,13 @@
 
 .taskbar-item-icon {
   font-size: 14px;
+}
+
+.taskbar-item-icon-img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .taskbar-item-label {
