@@ -87,7 +87,9 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
           <span className="fe-tool-arrow">{'\u2191'}</span> Up
         </button>
         <div className="fe-tool-sep" />
-        <button type="button" className="fe-tool-btn disabled" disabled>Search</button>
+        <button type="button" className="fe-tool-btn disabled" disabled>
+          <img src="/icons/search.png" alt="" className="fe-tool-icon" /> Search
+        </button>
         <button type="button" className="fe-tool-btn disabled" disabled>Folders</button>
       </div>
 
