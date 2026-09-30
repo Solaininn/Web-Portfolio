@@ -402,8 +402,8 @@
   position: absolute;
   bottom: var(--taskbar-h);
   left: 2px;
-  width: 200px;
-  height: 280px;
+  width: 340px;
+  height: 480px;
   display: flex;
   flex-direction: column;
   border-radius: 8px 8px 3px 3px;
