@@ -65,7 +65,10 @@ const DESKTOP_ICONS = [
 
 let zCounter = 10
 
-// Windows open large relative to the actual browser viewport
+// Windows open large relative to the actual browser viewport (roughly 85% of
+// available width/height, capped so it doesn't get absurd on huge monitors),
+// with a small per-app stagger so windows opened one after another don't sit
+// in exactly the same spot.
 function getDefaultRect(offsetIndex = 0) {
   const vw = window.innerWidth
   const vh = Math.max(400, window.innerHeight - 34)
@@ -94,7 +97,8 @@ function formatDate(date) {
   return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' })
 }
 
-// "My Computer" is the one app whose status bar changes
+// "My Computer" is the one app whose title/taskbar label/status bar change
+// depending on which virtual folder it's currently showing.
 function getWindowTitle(win) {
   if (win.id === 'mycomputer') {
     return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
@@ -103,7 +107,9 @@ function getWindowTitle(win) {
 }
 
 function getWindowStatus(win) {
-  // The file explorer draws its own detailed status bar
+  // The file explorer draws its own detailed status bar inside its body
+  // (object count, size, "My Computer" icon), so the generic window
+  // chrome status bar stays off for it to avoid showing the text twice.
   if (win.id === 'mycomputer') return null
   return win.statusbar
 }
@@ -151,7 +157,7 @@ export default function App() {
           minimized: false,
           maximized: false,
           z: zCounter,
-          location: location || 'c',
+          location: location || (id === 'mycomputer' ? 'c' : null),
         },
       }
     })
@@ -258,6 +264,8 @@ export default function App() {
             >
               {win.id === 'mycomputer' ? (
                 <Content location={win.location} onNavigate={navigateExplorer} onOpenApp={openApp} />
+              ) : win.id === 'projects' ? (
+                <Content initialProjectId={win.location} />
               ) : (
                 <Content />
               )}
