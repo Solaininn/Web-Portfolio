@@ -4,7 +4,7 @@ const PROJECTS = [
   {
     id: 1,
     name: 'Rebel Locate',
-    icon: '\u{1F4CD}',
+    icon: 'RL',
     color: '#3f6fc9',
     summary: 'ML geolocator that predicts a UNLV building & room from a photo.',
     role: 'Team project',
@@ -16,7 +16,7 @@ const PROJECTS = [
   {
     id: 2,
     name: 'FPGA Sudoku',
-    icon: '\u{1F3AE}',
+    icon: 'FS',
     color: '#c9563f',
     summary: 'An interactive Sudoku game built entirely in hardware on an FPGA.',
     role: 'Team project',
@@ -28,7 +28,7 @@ const PROJECTS = [
   {
     id: 3,
     name: 'ACM UNLV Website',
-    icon: '\u{1F310}',
+    icon: 'AU',
     color: '#2f9e5f',
     summary: 'The official site for ACM UNLV, built as Lead Software Engineer.',
     role: 'Lead Software Engineer \u2014 ACM UNLV',
@@ -39,8 +39,7 @@ const PROJECTS = [
   },
 ]
 
-// ---- tiny markdown renderer (headings, bold/italic/code, links, lists, code fences, images, blockquotes) ----
-
+// markdown renderer
 function decodeBase64Utf8(b64) {
   const clean = b64.replace(/\n/g, '')
   const binary = atob(clean)
@@ -70,9 +69,6 @@ function resolveLinkHref(href, repo, branch) {
     : `https://github.com/${repo}/blob/${branch}/${cleaned}`
 }
 
-// Many READMEs use raw HTML (usually <p align="center"><img .../></p>) instead of
-// Markdown image syntax to center/size images. Convert those to plain Markdown
-// image lines before block-parsing so the normal image handling picks them up.
 function preprocessHtmlImages(markdown) {
   const fromAttrs = (attrs) => {
     const srcMatch = attrs.match(/src="([^"]+)"/i)
@@ -270,7 +266,7 @@ export default function ProjectsWindow() {
         <div className="project-detail-back" onClick={() => setSelected(null)}>
           &#8592; Back to My Projects
         </div>
-        <h2>{p.icon} {p.name}</h2>
+        <h2>{p.name}</h2>
         <div className="role">{p.role}</div>
         {!p.repo && <p className="desc">{p.description}</p>}
         <div className="project-tags" style={{ marginBottom: 16 }}>
@@ -290,7 +286,7 @@ export default function ProjectsWindow() {
                 target="_blank"
                 rel="noreferrer"
               >
-                {'\u{1F4C1}'} View on GitHub
+                View on GitHub
               </a>
             </div>
             <ReadmeViewer repo={p.repo} />
