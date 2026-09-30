@@ -6,10 +6,10 @@ import StartMenu from './components/StartMenu'
 import BootScreen from './components/BootScreen'
 import ShutdownScreen from './components/ShutdownScreen'
 import AboutWindow from './components/windows/AboutWindow'
-import ProjectsWindow from './components/windows/ProjectsWindow'
+import ProjectsWindow, { PROJECTS } from './components/windows/ProjectsWindow'
 import ContactWindow from './components/windows/ContactWindow'
 import ResumeWindow from './components/windows/ResumeWindow'
-import ClassroomPlanWindow from './components/windows/ClassroomPlanWindow'
+import PdfWindow from './components/windows/PdfWindow'
 import FileExplorerWindow, { EXPLORER_LOCATIONS } from './components/windows/FileExplorerWindow'
 
 const APP_DEFS = {
@@ -53,10 +53,10 @@ const APP_DEFS = {
     statusbar: 'Page 1 of 1',
     offsetIndex: 3,
   },
-  classroomPlan: {
-    title: 'Classroom.pdf - Adobe Reader',
+  pdfviewer: {
+    title: 'PDF Viewer',
     icon: '/icons/pdf-icon.png',
-    Component: ClassroomPlanWindow,
+    Component: PdfWindow,
     menubar: false,
     statusbar: 'Page 1 of 1',
     offsetIndex: 5,
@@ -73,7 +73,6 @@ const DESKTOP_ICONS = [
 ]
 
 let zCounter = 10
-
 function getDefaultRect(offsetIndex = 0) {
   const vw = window.innerWidth
   const vh = Math.max(400, window.innerHeight - 34)
@@ -105,6 +104,13 @@ function formatDate(date) {
 function getWindowTitle(win) {
   if (win.id === 'mycomputer') {
     return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
+  }
+  if (win.id === 'projects') {
+    const p = PROJECTS.find((pr) => pr.id === win.location)
+    return p ? `${p.name} - My Projects` : win.title
+  }
+  if (win.id === 'pdfviewer') {
+    return win.location && win.location.label ? `${win.location.label} - Adobe Reader` : win.title
   }
   return win.title
 }
@@ -242,7 +248,9 @@ export default function App() {
               label={ic.label}
               selected={selectedIcon === ic.id}
               onSelect={() => setSelectedIcon(ic.id)}
-              onOpen={() => openApp(ic.id)}
+              onOpen={() =>
+                ic.id === 'projects' ? openApp('mycomputer', 'projects') : openApp(ic.id)
+              }
             />
           ))}
         </div>
@@ -265,7 +273,9 @@ export default function App() {
               {win.id === 'mycomputer' ? (
                 <Content location={win.location} onNavigate={navigateExplorer} onOpenApp={openApp} />
               ) : win.id === 'projects' ? (
-                <Content initialProjectId={win.location} />
+                <Content initialProjectId={win.location} onOpenApp={openApp} />
+              ) : win.id === 'pdfviewer' ? (
+                <Content src={win.location && win.location.src} />
               ) : (
                 <Content />
               )}
