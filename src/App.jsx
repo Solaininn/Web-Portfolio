@@ -53,7 +53,7 @@ const APP_DEFS = {
     statusbar: 'Page 1 of 1',
     offsetIndex: 3,
   },
-  // Generic single-window PDF viewer.
+
   pdfviewer: {
     title: 'PDF Viewer',
     icon: '/icons/pdf-icon.png',
@@ -75,13 +75,12 @@ const DESKTOP_ICONS = [
 
 let zCounter = 10
 
-// Every window opens at this same fixed size and starting position
 function getDefaultRect(offsetIndex = 0) {
-  const w = 1300
-  const h = 820
+  const w = 650
+  const h = 410
   const baseX = 90
   const baseY = 30
-  const stagger = offsetIndex * 26
+  const stagger = offsetIndex * 18
   return {
     x: baseX + stagger,
     y: baseY + stagger,
@@ -102,6 +101,8 @@ function formatDate(date) {
   return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' })
 }
 
+// "My Computer" is the one app whose title/taskbar label/status bar change
+// depending on which virtual folder it's currently showing.
 function getWindowTitle(win) {
   if (win.id === 'mycomputer') {
     return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
@@ -117,6 +118,9 @@ function getWindowTitle(win) {
 }
 
 function getWindowStatus(win) {
+  // The file explorer draws its own detailed status bar inside its body
+  // (object count, size, "My Computer" icon), so the generic window
+  // chrome status bar stays off for it to avoid showing the text twice.
   if (win.id === 'mycomputer') return null
   return win.statusbar
 }
