@@ -61,6 +61,10 @@ export const EXPLORER_LOCATIONS = {
       { id: 'autocad', label: 'AutoCAD Drawings', icon: '/icons/empty-folder.png', target: 'autocad-drawings', type: 'File Folder' },
     ],
   },
+  // To add another AutoCAD drawing later: drop the PDF file in
+  // public/pdfs/, then add one more item object below with a unique id,
+  // its label, and a pdfSrc pointing at the file. That's it — no new
+  // component or app id needed, it reuses the generic PDF viewer.
   'autocad-drawings': {
     title: 'AutoCAD Drawings',
     parent: 'projects',
@@ -72,8 +76,9 @@ export const EXPLORER_LOCATIONS = {
         id: 'classroom-plan',
         label: 'Classroom.pdf',
         icon: '/icons/pdf-icon.png',
-        action: 'open-app',
-        appId: 'classroomPlan',
+        action: 'open-pdf',
+        pdfSrc: '/pdfs/classroom-plan.pdf',
+        pdfLabel: 'Classroom.pdf',
         type: 'Adobe Acrobat Document',
       },
     ],
@@ -124,8 +129,8 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
       onOpenApp('resume')
     } else if (item.action === 'open-project') {
       onOpenApp('projects', item.projectId)
-    } else if (item.action === 'open-app') {
-      onOpenApp(item.appId)
+    } else if (item.action === 'open-pdf') {
+      onOpenApp('pdfviewer', { src: item.pdfSrc, label: item.pdfLabel })
     } else if (item.target) {
       onNavigate(item.target)
     }
