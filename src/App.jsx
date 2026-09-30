@@ -36,6 +36,7 @@ const APP_DEFS = {
     menubar: true,
     statusbar: '3 items',
     offsetIndex: 1,
+    size: { w: 950, h: 760 },
   },
   contact: {
     title: 'Contact Me',
@@ -52,8 +53,8 @@ const APP_DEFS = {
     menubar: false,
     statusbar: 'Page 1 of 1',
     offsetIndex: 3,
+    size: { w: 950, h: 760 },
   },
-
   pdfviewer: {
     title: 'PDF Viewer',
     icon: '/icons/pdf-icon.png',
@@ -61,6 +62,7 @@ const APP_DEFS = {
     menubar: false,
     statusbar: 'Page 1 of 1',
     offsetIndex: 5,
+    size: { w: 950, h: 760 },
   },
 }
 
@@ -74,10 +76,10 @@ const DESKTOP_ICONS = [
 ]
 
 let zCounter = 10
+const DEFAULT_WINDOW_SIZE = { w: 650, h: 410 }
 
-function getDefaultRect(offsetIndex = 0) {
-  const w = 650
-  const h = 410
+function getDefaultRect(offsetIndex = 0, size) {
+  const { w, h } = size || DEFAULT_WINDOW_SIZE
   const baseX = 90
   const baseY = 30
   const stagger = offsetIndex * 18
@@ -100,9 +102,6 @@ function formatTime(date) {
 function formatDate(date) {
   return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' })
 }
-
-// "My Computer" is the one app whose title/taskbar label/status bar change
-// depending on which virtual folder it's currently showing.
 function getWindowTitle(win) {
   if (win.id === 'mycomputer') {
     return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
@@ -118,9 +117,6 @@ function getWindowTitle(win) {
 }
 
 function getWindowStatus(win) {
-  // The file explorer draws its own detailed status bar inside its body
-  // (object count, size, "My Computer" icon), so the generic window
-  // chrome status bar stays off for it to avoid showing the text twice.
   if (win.id === 'mycomputer') return null
   return win.statusbar
 }
@@ -164,7 +160,7 @@ export default function App() {
           icon: def.icon,
           menubar: def.menubar,
           statusbar: def.statusbar,
-          rect: getDefaultRect(def.offsetIndex),
+          rect: getDefaultRect(def.offsetIndex, def.size),
           minimized: false,
           maximized: false,
           z: zCounter,
