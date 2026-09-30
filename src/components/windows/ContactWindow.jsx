@@ -52,20 +52,20 @@ export default function ContactWindow() {
 
       <div className="contact-links">
         <div className="contact-link-row">
-          <span>{'\u2709\uFE0F'}</span>
+          <strong>Email:</strong>
           <a href="mailto:Zolikale@icloud.com">Zolikale@icloud.com</a>
         </div>
         <div className="contact-link-row">
-          <span>{'\u{1F3EB}'}</span>
+          <strong>University:</strong>
           <a href="mailto:Lez1@unlv.nevada.edu">Lez1@unlv.nevada.edu</a>
         </div>
         <div className="contact-link-row">
-          <span>{'\u{1F4BC}'}</span>
-          <a href="https://www.linkedin.com/feed/" target="_blank" rel="noreferrer">LinkedIn</a>
+          <strong>LinkedIn:</strong>
+          <a href="#" target="_blank" rel="noreferrer">LinkedIn</a>
         </div>
         <div className="contact-link-row">
-          <span>{'\u{1F4C1}'}</span>
-          <a href="https://github.com/Solaininn" target="_blank" rel="noreferrer">GitHub</a>
+          <strong>GitHub:</strong>
+          <a href="#" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>
     </div>
