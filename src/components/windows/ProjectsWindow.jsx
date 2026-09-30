@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const PROJECTS = [
+export const PROJECTS = [
   {
     id: 1,
     name: 'Rebel Locate',
@@ -39,7 +39,8 @@ const PROJECTS = [
   },
 ]
 
-// markdown renderer
+// ---- tiny markdown renderer (headings, bold/italic/code, links, lists, code fences, images, blockquotes) ----
+
 function decodeBase64Utf8(b64) {
   const clean = b64.replace(/\n/g, '')
   const binary = atob(clean)
@@ -69,6 +70,9 @@ function resolveLinkHref(href, repo, branch) {
     : `https://github.com/${repo}/blob/${branch}/${cleaned}`
 }
 
+// Many READMEs use raw HTML (usually <p align="center"><img .../></p>) instead of
+// Markdown image syntax to center/size images. Convert those to plain Markdown
+// image lines before block-parsing so the normal image handling picks them up.
 function preprocessHtmlImages(markdown) {
   const fromAttrs = (attrs) => {
     const srcMatch = attrs.match(/src="([^"]+)"/i)
@@ -256,8 +260,17 @@ function ReadmeViewer({ repo }) {
   return <div className="readme-body">{renderMarkdown(state.content, repo, state.branch)}</div>
 }
 
-export default function ProjectsWindow() {
-  const [selected, setSelected] = useState(null)
+// initialProjectId lets a project be opened directly to its detail/README
+// view (e.g. from the "<Project>.pdf" file inside its folder in My
+// Computer > My Projects), instead of always landing on the grid.
+export default function ProjectsWindow({ initialProjectId }) {
+  const [selected, setSelected] = useState(() => PROJECTS.find((p) => p.id === initialProjectId) || null)
+
+  useEffect(() => {
+    if (initialProjectId == null) return
+    const p = PROJECTS.find((pr) => pr.id === initialProjectId)
+    if (p) setSelected(p)
+  }, [initialProjectId])
 
   if (selected) {
     const p = selected
