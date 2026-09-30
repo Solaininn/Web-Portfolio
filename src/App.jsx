@@ -4,6 +4,7 @@ import Window from './components/Window'
 import DesktopIcon from './components/DesktopIcon'
 import StartMenu from './components/StartMenu'
 import BootScreen from './components/BootScreen'
+import ShutdownScreen from './components/ShutdownScreen'
 import AboutWindow from './components/windows/AboutWindow'
 import ProjectsWindow from './components/windows/ProjectsWindow'
 import ContactWindow from './components/windows/ContactWindow'
@@ -64,7 +65,7 @@ const DESKTOP_ICONS = [
 
 let zCounter = 10
 
-// Windows open large relative to the actual browser 
+// Windows open large relative to the actual browser viewport
 function getDefaultRect(offsetIndex = 0) {
   const vw = window.innerWidth
   const vh = Math.max(400, window.innerHeight - 34)
@@ -102,14 +103,14 @@ function getWindowTitle(win) {
 }
 
 function getWindowStatus(win) {
-  if (win.id === 'mycomputer') {
-    return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].status) || ''
-  }
+  // The file explorer draws its own detailed status bar
+  if (win.id === 'mycomputer') return null
   return win.statusbar
 }
 
 export default function App() {
   const [booted, setBooted] = useState(false)
+  const [poweredOff, setPoweredOff] = useState(false)
   const [windows, setWindows] = useState({})
   const [activeId, setActiveId] = useState(null)
   const [startOpen, setStartOpen] = useState(false)
@@ -150,7 +151,7 @@ export default function App() {
           minimized: false,
           maximized: false,
           z: zCounter,
-          location: location || 'root',
+          location: location || 'c',
         },
       }
     })
@@ -191,7 +192,28 @@ export default function App() {
     )
   }, [])
 
+  const logOff = useCallback(() => {
+    setStartOpen(false)
+    setWindows({})
+    setActiveId(null)
+    setBooted(false)
+  }, [])
+
+  const turnOffComputer = useCallback(() => {
+    setStartOpen(false)
+    setPoweredOff(true)
+  }, [])
+
+  const powerOn = useCallback(() => {
+    setPoweredOff(false)
+    setBooted(false)
+  }, [])
+
   const openWindows = Object.values(windows)
+
+  if (poweredOff) {
+    return <ShutdownScreen onPowerOn={powerOn} />
+  }
 
   if (!booted) {
     return <BootScreen onDone={() => setBooted(true)} />
@@ -245,7 +267,12 @@ export default function App() {
       </div>
 
       {startOpen && (
-        <StartMenu onOpenApp={openApp} onClose={() => setStartOpen(false)} />
+        <StartMenu
+          onOpenApp={openApp}
+          onClose={() => setStartOpen(false)}
+          onLogOff={logOff}
+          onTurnOffComputer={turnOffComputer}
+        />
       )}
 
       <div className="win7-taskbar" onMouseDown={(e) => e.stopPropagation()}>
