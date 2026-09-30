@@ -373,10 +373,11 @@
 /* ===================== START MENU ===================== */
 .start-menu {
   position: absolute;
+  top: 310px;
   bottom: var(--taskbar-h);
   left: 2px;
   width: 400px;
-  height: min(600px, calc(100vh - 70px));
+  display: flex;
 }
 
 .start-menu-header {
@@ -852,6 +853,7 @@ footer-btn-icon {
   }
   .start-menu {
     width: 92vw;
+    top: 140px;
   }
   .taskbar-item-label {
     display: none;
@@ -863,8 +865,6 @@ footer-btn-icon {
     display: none;
   }
 }
-
-
 /* ===================== WINDOWS: PROJECTS  ===================== */
 
 .explorer-toolbar {
