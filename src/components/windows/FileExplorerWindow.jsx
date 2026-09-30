@@ -3,7 +3,6 @@ const PROJECT_FOLDERS = [
   { id: 2, name: 'FPGA Sudoku' },
   { id: 3, name: 'ACM UNLV Website' },
 ]
-
 export const EXPLORER_LOCATIONS = {
   c: {
     title: 'Local Disk (C:)',
@@ -61,10 +60,6 @@ export const EXPLORER_LOCATIONS = {
       { id: 'autocad', label: 'AutoCAD Drawings', icon: '/icons/empty-folder.png', target: 'autocad-drawings', type: 'File Folder' },
     ],
   },
-  // To add another AutoCAD drawing later: drop the PDF file in
-  // public/pdfs/, then add one more item object below with a unique id,
-  // its label, and a pdfSrc pointing at the file. That's it — no new
-  // component or app id needed, it reuses the generic PDF viewer.
   'autocad-drawings': {
     title: 'AutoCAD Drawings',
     parent: 'projects',
@@ -85,8 +80,7 @@ export const EXPLORER_LOCATIONS = {
   },
 }
 
-// One folder per project, each holding a single "<name>.pdf" file that opens
-// straight to that project's detail/README view in My Projects.
+// One folder per project, each holding a single "<name>.pdf" file
 PROJECT_FOLDERS.forEach((p) => {
   EXPLORER_LOCATIONS[`project-${p.id}`] = {
     title: p.name,
@@ -137,7 +131,7 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
   }
 
   return (
-    <>
+    <div className="fe-root">
       <div className="fe-toolbar">
         <button
           type="button"
@@ -234,6 +228,6 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
           <img src="/icons/my-computer.png" alt="" /> My Computer
         </span>
       </div>
-    </>
+    </div>
   )
 }
