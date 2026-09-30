@@ -260,10 +260,13 @@ function ReadmeViewer({ repo }) {
   return <div className="readme-body">{renderMarkdown(state.content, repo, state.branch)}</div>
 }
 
-// initialProjectId lets a project be opened directly to its detail/README
-// view (e.g. from the "<Project>.pdf" file inside its folder in My
-// Computer > My Projects), instead of always landing on the grid.
-export default function ProjectsWindow({ initialProjectId }) {
+// This window is now purely a single-project detail/README viewer \u2014 it no
+// longer has its own browsable grid. Browsing projects happens in My
+// Computer > My Projects (the file explorer), whose "<Project>.pdf" files
+// open a project here via initialProjectId. The desktop icon and Start
+// Menu's "My Projects" entries now open that same explorer folder directly
+// (see App.jsx / StartMenu.jsx), so there's only ever one screen for it.
+export default function ProjectsWindow({ initialProjectId, onOpenApp }) {
   const [selected, setSelected] = useState(() => PROJECTS.find((p) => p.id === initialProjectId) || null)
 
   useEffect(() => {
@@ -272,68 +275,53 @@ export default function ProjectsWindow({ initialProjectId }) {
     if (p) setSelected(p)
   }, [initialProjectId])
 
-  if (selected) {
-    const p = selected
+  const goToProjectsFolder = () => {
+    if (onOpenApp) onOpenApp('mycomputer', 'projects')
+  }
+
+  if (!selected) {
     return (
       <div className="project-detail">
-        <div className="project-detail-back" onClick={() => setSelected(null)}>
-          &#8592; Back to My Projects
+        <p className="desc">No project selected.</p>
+        <div className="project-detail-back" onClick={goToProjectsFolder}>
+          &#8592; Go to My Projects
         </div>
-        <h2>{p.name}</h2>
-        <div className="role">{p.role}</div>
-        {!p.repo && <p className="desc">{p.description}</p>}
-        <div className="project-tags" style={{ marginBottom: 16 }}>
-          {p.tags.map((t) => (
-            <span className="project-tag" key={t}>{t}</span>
-          ))}
-        </div>
-
-        {p.repo && (
-          <>
-            <div className="readme-divider" />
-            <div className="readme-header">
-              <span>README</span>
-              <a
-                className="win7-link-btn"
-                href={`https://github.com/${p.repo}`}
-                target="_blank"
-                rel="noreferrer"
-              >
-                View on GitHub
-              </a>
-            </div>
-            <ReadmeViewer repo={p.repo} />
-          </>
-        )}
       </div>
     )
   }
 
+  const p = selected
   return (
-    <>
-      <div className="explorer-toolbar">
-        <span>{'\u2190'}</span>
-        <span>{'\u2192'}</span>
-        <div className="path-pill">My Computer &gt; My Projects</div>
+    <div className="project-detail">
+      <div className="project-detail-back" onClick={goToProjectsFolder}>
+        &#8592; Back to My Projects
       </div>
-      <div className="project-grid">
-        {PROJECTS.map((p) => (
-          <div className="project-tile" key={p.id} onClick={() => setSelected(p)}>
-            <div className="project-tile-thumb" style={{ background: p.color }}>
-              {p.icon}
-            </div>
-            <div className="project-tile-body">
-              <h4>{p.name}</h4>
-              <p>{p.summary}</p>
-              <div className="project-tags">
-                {p.tags.slice(0, 2).map((t) => (
-                  <span className="project-tag" key={t}>{t}</span>
-                ))}
-              </div>
-            </div>
-          </div>
+      <h2>{p.name}</h2>
+      <div className="role">{p.role}</div>
+      {!p.repo && <p className="desc">{p.description}</p>}
+      <div className="project-tags" style={{ marginBottom: 16 }}>
+        {p.tags.map((t) => (
+          <span className="project-tag" key={t}>{t}</span>
         ))}
       </div>
-    </>
+
+      {p.repo && (
+        <>
+          <div className="readme-divider" />
+          <div className="readme-header">
+            <span>README</span>
+            <a
+              className="win7-link-btn"
+              href={`https://github.com/${p.repo}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              View on GitHub
+            </a>
+          </div>
+          <ReadmeViewer repo={p.repo} />
+        </>
+      )}
+    </div>
   )
 }
