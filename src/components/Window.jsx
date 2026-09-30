@@ -84,7 +84,11 @@ export default function Window({
     >
       <div className="win7-titlebar" onMouseDown={startDrag} onDoubleClick={onMaximize}>
         <div className="win7-titlebar-title">
-          <span className="win7-titlebar-icon">{win.icon}</span>
+          {typeof win.icon === 'string' && win.icon.startsWith('/') ? (
+            <img src={win.icon} alt="" className="win7-titlebar-icon-img" />
+          ) : (
+            <span className="win7-titlebar-icon">{win.icon}</span>
+          )}
           <span>{win.title}</span>
         </div>
         <div className="win7-titlebar-controls">
