@@ -4,7 +4,7 @@ const TOP_PINNED = [
 ]
 
 const PROGRAM_PINNED = [
-  { id: 'projects', icon: '/icons/disk-drive.png', title: 'My Projects', sub: 'Browse my work' },
+  { id: 'mycomputer', location: 'projects', icon: '/icons/disk-drive.png', title: 'My Projects', sub: 'Browse my work' },
   { id: 'resume', icon: '/icons/pdf-icon.png', title: 'Resume.pdf', sub: 'Adobe Reader' },
   { id: 'contact', icon: '/icons/ie-globe.png', title: 'Contact Me', sub: 'Mail' },
 ]
