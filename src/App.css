@@ -396,11 +396,14 @@
 /* ===================== START MENU (XP Luna) ===================== */
 
 .start-menu {
+  /* Fixed size/position — intentionally NOT based on viewport height, so it
+     no longer stretches, shrinks, or gets squished when the browser tab/
+     window isn't fullscreen. */
   position: absolute;
   bottom: var(--taskbar-h);
   left: 2px;
-  width: 400px;
-  height: 560px;
+  width: 200px;
+  height: 280px;
   display: flex;
   flex-direction: column;
   border-radius: 8px 8px 3px 3px;
