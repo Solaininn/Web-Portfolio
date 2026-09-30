@@ -9,6 +9,7 @@ import AboutWindow from './components/windows/AboutWindow'
 import ProjectsWindow from './components/windows/ProjectsWindow'
 import ContactWindow from './components/windows/ContactWindow'
 import ResumeWindow from './components/windows/ResumeWindow'
+import ClassroomPlanWindow from './components/windows/ClassroomPlanWindow'
 import FileExplorerWindow, { EXPLORER_LOCATIONS } from './components/windows/FileExplorerWindow'
 
 const APP_DEFS = {
@@ -52,6 +53,14 @@ const APP_DEFS = {
     statusbar: 'Page 1 of 1',
     offsetIndex: 3,
   },
+  classroomPlan: {
+    title: 'Classroom.pdf - Adobe Reader',
+    icon: '/icons/pdf-icon.png',
+    Component: ClassroomPlanWindow,
+    menubar: false,
+    statusbar: 'Page 1 of 1',
+    offsetIndex: 5,
+  },
 }
 
 const DESKTOP_ICONS = [
@@ -65,10 +74,6 @@ const DESKTOP_ICONS = [
 
 let zCounter = 10
 
-// Windows open large relative to the actual browser viewport (roughly 85% of
-// available width/height, capped so it doesn't get absurd on huge monitors),
-// with a small per-app stagger so windows opened one after another don't sit
-// in exactly the same spot.
 function getDefaultRect(offsetIndex = 0) {
   const vw = window.innerWidth
   const vh = Math.max(400, window.innerHeight - 34)
@@ -97,8 +102,6 @@ function formatDate(date) {
   return date.toLocaleDateString(undefined, { month: 'numeric', day: 'numeric', year: 'numeric' })
 }
 
-// "My Computer" is the one app whose title/taskbar label/status bar change
-// depending on which virtual folder it's currently showing.
 function getWindowTitle(win) {
   if (win.id === 'mycomputer') {
     return (EXPLORER_LOCATIONS[win.location] && EXPLORER_LOCATIONS[win.location].title) || win.title
@@ -107,9 +110,6 @@ function getWindowTitle(win) {
 }
 
 function getWindowStatus(win) {
-  // The file explorer draws its own detailed status bar inside its body
-  // (object count, size, "My Computer" icon), so the generic window
-  // chrome status bar stays off for it to avoid showing the text twice.
   if (win.id === 'mycomputer') return null
   return win.statusbar
 }
