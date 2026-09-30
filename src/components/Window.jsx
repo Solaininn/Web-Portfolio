@@ -93,13 +93,13 @@ export default function Window({
         </div>
         <div className="win7-titlebar-controls">
           <div className="win7-btn" onMouseDown={(e) => { e.stopPropagation(); onMinimize() }}>
-            &#x2013;
+            <img src="/icons/win-minimize.png" alt="Minimize" className="win7-btn-icon" />
           </div>
           <div className="win7-btn" onMouseDown={(e) => { e.stopPropagation(); onMaximize() }}>
-            {win.maximized ? '\u2750' : '\u25A1'}
+            <img src="/icons/win-maximize.png" alt="Maximize" className="win7-btn-icon" />
           </div>
           <div className="win7-btn close" onMouseDown={(e) => { e.stopPropagation(); onClose() }}>
-            &#x2715;
+            <img src="/icons/win-close.png" alt="Close" className="win7-btn-icon" />
           </div>
         </div>
       </div>
