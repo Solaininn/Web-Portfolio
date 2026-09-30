@@ -55,11 +55,11 @@ export default function StartMenu({ onOpenApp, onClose, onLogOff, onTurnOffCompu
 
       <div className="start-menu-footer">
         <button className="footer-btn logoff-btn" onClick={onLogOff}>
-          <span className="footer-btn-icon" aria-hidden="true" />
+          <img src="/icons/log-off.png" alt="" className="footer-btn-icon" />
           Log Off
         </button>
         <button className="footer-btn shutdown-btn" onClick={onTurnOffComputer}>
-          <span className="footer-btn-icon" aria-hidden="true" />
+          <img src="/icons/shutdown.png" alt="" className="footer-btn-icon" />
           Turn Off Computer
         </button>
       </div>
