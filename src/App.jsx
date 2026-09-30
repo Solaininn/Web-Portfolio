@@ -53,6 +53,7 @@ const APP_DEFS = {
     statusbar: 'Page 1 of 1',
     offsetIndex: 3,
   },
+  // Generic single-window PDF viewer.
   pdfviewer: {
     title: 'PDF Viewer',
     icon: '/icons/pdf-icon.png',
@@ -73,17 +74,17 @@ const DESKTOP_ICONS = [
 ]
 
 let zCounter = 10
+
+// Every window opens at this same fixed size and starting position
 function getDefaultRect(offsetIndex = 0) {
-  const vw = window.innerWidth
-  const vh = Math.max(400, window.innerHeight - 34)
-  const w = Math.min(1500, Math.round(vw * 0.85))
-  const h = Math.min(880, Math.round(vh * 0.85))
-  const baseX = Math.round((vw - w) / 2)
-  const baseY = Math.max(10, Math.round((vh - h) / 2) - 10)
+  const w = 1300
+  const h = 820
+  const baseX = 90
+  const baseY = 30
   const stagger = offsetIndex * 26
   return {
-    x: Math.max(8, baseX - 45 + stagger),
-    y: Math.max(8, baseY - 25 + stagger),
+    x: baseX + stagger,
+    y: baseY + stagger,
     w,
     h,
   }
