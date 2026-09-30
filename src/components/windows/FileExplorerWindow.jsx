@@ -3,6 +3,7 @@ const PROJECT_FOLDERS = [
   { id: 2, name: 'FPGA Sudoku' },
   { id: 3, name: 'ACM UNLV Website' },
 ]
+
 export const EXPLORER_LOCATIONS = {
   c: {
     title: 'Local Disk (C:)',
@@ -48,14 +49,34 @@ export const EXPLORER_LOCATIONS = {
     parent: 'c',
     path: 'C:\\My Projects',
     kind: 'File Folder',
-    status: `${PROJECT_FOLDERS.length} objects`,
-    items: PROJECT_FOLDERS.map((p) => ({
-      id: `project-${p.id}`,
-      label: p.name,
-      icon: '/icons/empty-folder.png',
-      target: `project-${p.id}`,
-      type: 'File Folder',
-    })),
+    status: `${PROJECT_FOLDERS.length + 1} objects`,
+    items: [
+      ...PROJECT_FOLDERS.map((p) => ({
+        id: `project-${p.id}`,
+        label: p.name,
+        icon: '/icons/empty-folder.png',
+        target: `project-${p.id}`,
+        type: 'File Folder',
+      })),
+      { id: 'autocad', label: 'AutoCAD Drawings', icon: '/icons/empty-folder.png', target: 'autocad-drawings', type: 'File Folder' },
+    ],
+  },
+  'autocad-drawings': {
+    title: 'AutoCAD Drawings',
+    parent: 'projects',
+    path: 'C:\\My Projects\\AutoCAD Drawings',
+    kind: 'File Folder',
+    status: '1 object',
+    items: [
+      {
+        id: 'classroom-plan',
+        label: 'Classroom.pdf',
+        icon: '/icons/pdf-icon.png',
+        action: 'open-app',
+        appId: 'classroomPlan',
+        type: 'Adobe Acrobat Document',
+      },
+    ],
   },
 }
 
@@ -103,6 +124,8 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
       onOpenApp('resume')
     } else if (item.action === 'open-project') {
       onOpenApp('projects', item.projectId)
+    } else if (item.action === 'open-app') {
+      onOpenApp(item.appId)
     } else if (item.target) {
       onNavigate(item.target)
     }
@@ -117,10 +140,10 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
           disabled={!canGoBack}
           onClick={() => canGoBack && onNavigate(loc.parent)}
         >
-          <span className="fe-tool-arrow">{'\u2190'}</span> Back
+          <img src="/icons/back.png" alt="" className="fe-tool-icon" /> Back
         </button>
         <button type="button" className="fe-tool-btn disabled" disabled>
-          <span className="fe-tool-arrow">{'\u2192'}</span>
+          <img src="/icons/forward.png" alt="" className="fe-tool-icon" />
         </button>
         <button
           type="button"
@@ -128,13 +151,15 @@ export default function FileExplorerWindow({ location, onNavigate, onOpenApp }) 
           disabled={!canGoUp}
           onClick={() => canGoUp && onNavigate(loc.parent)}
         >
-          <span className="fe-tool-arrow">{'\u2191'}</span> Up
+          <img src="/icons/folder-up.png" alt="" className="fe-tool-icon" /> Up
         </button>
         <div className="fe-tool-sep" />
         <button type="button" className="fe-tool-btn disabled" disabled>
           <img src="/icons/search.png" alt="" className="fe-tool-icon" /> Search
         </button>
-        <button type="button" className="fe-tool-btn disabled" disabled>Folders</button>
+        <button type="button" className="fe-tool-btn disabled" disabled>
+          <img src="/icons/folders.png" alt="" className="fe-tool-icon" /> Folders
+        </button>
       </div>
 
       <div className="fe-address-bar">
