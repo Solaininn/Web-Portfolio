@@ -9,9 +9,7 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse 70% 60% at 50% 45%, #12295c 0%, transparent 65%),
-    linear-gradient(180deg, #050b1a 0%, #0a1530 35%, #071026 70%, #030814 100%);
+  background: url('/wallpaper.jpg') no-repeat center center / cover;
   background-color: #050b1a;
 }
 
@@ -19,49 +17,6 @@
   position: absolute;
   inset: 0;
   bottom: var(--taskbar-h);
-}
-
-.desktop-watermark {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  pointer-events: none;
-  opacity: 0.9;
-}
-
-.watermark-flag {
-  display: grid;
-  grid-template-columns: 42px 42px;
-  grid-template-rows: 42px 42px;
-  gap: 4px;
-  transform: skewX(-10deg);
-  filter: drop-shadow(0 0 26px rgba(70,140,255,0.55)) drop-shadow(0 0 6px rgba(255,255,255,0.25));
-}
-.watermark-flag div:nth-child(1) { background: #00a8f3; }
-.watermark-flag div:nth-child(2) { background: #6fbf2e; }
-.watermark-flag div:nth-child(3) { background: #ffb900; }
-.watermark-flag div:nth-child(4) { background: #f24e1e; }
-
-.watermark-text {
-  line-height: 1.05;
-}
-.watermark-text .wm-name {
-  color: #f2f6ff;
-  font-size: 34px;
-  font-weight: 600;
-  text-shadow: 0 0 18px rgba(120,170,255,0.6);
-}
-.watermark-text .wm-sub {
-  color: #ff8a3d;
-  font-size: 20px;
-  font-weight: 700;
-  font-style: italic;
-  text-shadow: 0 0 12px rgba(255,140,60,0.5);
-  margin-top: 2px;
 }
 
 /* ===================== DESKTOP ICONS ===================== */
@@ -430,7 +385,7 @@
 
 .start-menu {
   position: absolute;
-  top: 310px;
+  top: 390px;
   bottom: var(--taskbar-h);
   left: 2px;
   width: 400px;
@@ -452,14 +407,14 @@
 }
 
 .start-avatar {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 4px;
   background: linear-gradient(145deg, #ffd27a, #e8934a);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
   text-shadow: 0 1px 2px rgba(0,0,0,0.35);
@@ -470,7 +425,7 @@
 .start-username {
   color: #fff;
   font-weight: 700;
-  font-size: 13px;
+  font-size: 14.5px;
   text-shadow: 0 1px 2px rgba(0,0,0,0.4);
 }
 
@@ -503,12 +458,12 @@
 .start-menu-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
-  padding: 4px 8px;
+  padding: 6px 8px;
   border-radius: 3px;
   cursor: pointer;
-  font-size: 11.5px;
+  font-size: 13px;
   color: #1b1b1b;
   box-sizing: border-box;
 }
@@ -525,17 +480,17 @@
 }
 
 .start-menu-item-icon {
-  flex: 0 0 20px;
-  width: 20px;
-  height: 20px;
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .start-menu-item-img {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   object-fit: contain;
 }
 
@@ -546,20 +501,20 @@
 
 .start-menu-item-text strong {
   display: block;
-  font-size: 11.5px;
+  font-size: 13px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 .start-menu-item-text small {
   display: block;
-  font-size: 9.5px;
+  font-size: 11px;
   color: #666;
   font-weight: 400;
 }
 
 .start-menu-right .start-menu-item {
-  font-size: 11px;
+  font-size: 12.5px;
   color: #1c3a63;
 }
 .start-menu-right .start-menu-item:hover {
@@ -1309,9 +1264,6 @@
   }
   .desktop-icon {
     width: 72px;
-  }
-  .desktop-watermark {
-    transform: translate(-50%, -50%) scale(0.7);
   }
   .fe-sidebar-xp {
     display: none;
