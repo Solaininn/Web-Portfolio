@@ -1,6 +1,8 @@
-import { PROJECTS as PROJECTS_IMPORT } from './ProjectsWindow'
-const PROJECTS = Array.isArray(PROJECTS_IMPORT) ? PROJECTS_IMPORT : []
-
+const PROJECT_FOLDERS = [
+  { id: 1, name: 'Rebel Locate' },
+  { id: 2, name: 'FPGA Sudoku' },
+  { id: 3, name: 'ACM UNLV Website' },
+]
 export const EXPLORER_LOCATIONS = {
   c: {
     title: 'Local Disk (C:)',
@@ -46,8 +48,8 @@ export const EXPLORER_LOCATIONS = {
     parent: 'c',
     path: 'C:\\My Projects',
     kind: 'File Folder',
-    status: `${PROJECTS.length} objects`,
-    items: PROJECTS.map((p) => ({
+    status: `${PROJECT_FOLDERS.length} objects`,
+    items: PROJECT_FOLDERS.map((p) => ({
       id: `project-${p.id}`,
       label: p.name,
       icon: '/icons/empty-folder.png',
@@ -59,7 +61,7 @@ export const EXPLORER_LOCATIONS = {
 
 // One folder per project, each holding a single "<name>.pdf" file that opens
 // straight to that project's detail/README view in My Projects.
-PROJECTS.forEach((p) => {
+PROJECT_FOLDERS.forEach((p) => {
   EXPLORER_LOCATIONS[`project-${p.id}`] = {
     title: p.name,
     parent: 'projects',
